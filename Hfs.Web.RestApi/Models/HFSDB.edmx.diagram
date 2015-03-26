@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f430da26cc674ff1a3b9f7be9907fe3e" Name="Diagram1">
+        <EntityTypeShape EntityType="HFSDB.Account" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.Email" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.Group" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.LegalName" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.NameSuffix" Width="1.5" PointX="3.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.Permission" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.Phone" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.PhoneBlacklist" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.PhoneRegion" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.PhoneType" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HFSDB.VerificationCode" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="HFSDB.fk_Email_account" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.fk_LegalName_account" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.fk_Phone_account" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.fk_LegalName_name_suffix" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.fk_Phone_region" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.fk_Phone_type" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.AccountGroup" ManuallyRouted="false" />
+        <AssociationConnector Association="HFSDB.GroupPermission" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

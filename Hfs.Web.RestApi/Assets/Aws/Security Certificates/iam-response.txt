@@ -1,0 +1,10 @@
+{
+    "ServerCertificateMetadata": {
+        "ServerCertificateId": "ASCAJIDHJRNRT4BPH2QFC",
+        "ServerCertificateName": "hayesfieldservices-com",
+        "Expiration": "2016-03-18T20:02:08Z",
+        "Path": "/cloudfront/test-www/",
+        "Arn": "arn:aws:iam::131729012396:server-certificate/cloudfront/test-www/hayesfieldservices-com",
+        "UploadDate": "2015-03-17T23:40:49.260Z"
+    }
+}

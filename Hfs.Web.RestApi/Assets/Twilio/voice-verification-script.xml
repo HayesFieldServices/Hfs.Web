@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Gather action="%HANDLER%" timeout="10" numDigits="1">
+    <Say voice="woman">Your 8-digit verification code is, %CODE%. To repeat this message, press 1.</Say>
+    <Say voice="woman">If you did not request a code, press 9 to prevent future calls to this number.</Say>
+  </Gather>
+  <Say voice="woman">Good bye!</Say>
+  <Hangup/>
+</Response>

@@ -1,0 +1,2 @@
+aws s3 rm s3://test-www.hayesfieldservices.com --recursive --no-verify-ssl
+aws s3 sync C:\Users\Christopher\Dropbox\Hfs.Web\Hfs.Web.UI s3://test-www.hayesfieldservices.com --acl public-read --exclude *.bat --exclude *csproj* --exclude *bin/* --exclude *obj/* --no-verify-ssl

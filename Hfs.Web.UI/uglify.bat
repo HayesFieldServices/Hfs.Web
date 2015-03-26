@@ -1,0 +1,2 @@
+﻿node "C:\program files\nodejs\node_modules\uglify-js\bin\uglifyjs" -o C:\Users\Christopher\Dropbox\LandingPage\js\main.min.js C:\Users\Christopher\Dropbox\LandingPage\js\main.js
+uglifycss C:\Users\Christopher\Dropbox\LandingPage\css\main.css > C:\Users\Christopher\Dropbox\LandingPage\css\main.min.css

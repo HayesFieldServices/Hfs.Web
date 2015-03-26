@@ -1,0 +1,2 @@
+** FROM ELEVATED COMMAND PROMPT **
+openssl pkcs12 -export -out hayesfieldservices-com.pfx -inkey hayesfieldservices-com.key -in hayesfieldservices-com.cer

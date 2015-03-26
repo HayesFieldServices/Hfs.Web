@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say voice="woman">Your number has been added to our do not call list. Good bye!</Say>
+  <Hangup/>
+</Response>

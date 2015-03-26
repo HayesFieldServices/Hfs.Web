@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say voice="woman">This number provides second-factor authentication for users of the H F S web site.</Say>
+  <Say voice="woman">If you did not request a verification code, text the word, STOP. in capital letters, from your mobile device.</Say>
+  <Hangup/>
+</Response>

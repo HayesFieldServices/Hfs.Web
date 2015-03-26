@@ -1,0 +1,3 @@
+﻿Your 8-digit verification code is %CODE%.
+
+If you did not request this code, you may reply STOP to unsubscribe.

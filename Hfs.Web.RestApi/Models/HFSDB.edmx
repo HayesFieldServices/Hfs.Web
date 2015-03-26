@@ -1,0 +1,701 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HFSDB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="pbkdf2_iterations" Type="int" Nullable="false" />
+          <Property Name="password_salt" Type="binary" MaxLength="32" Nullable="false" />
+          <Property Name="password_hash" Type="binary" MaxLength="32" Nullable="false" />
+          <Property Name="created_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccountGroup">
+          <Key>
+            <PropertyRef Name="account" />
+            <PropertyRef Name="group" />
+          </Key>
+          <Property Name="account" Type="int" Nullable="false" />
+          <Property Name="group" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="email_id" />
+          </Key>
+          <Property Name="email_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account" Type="int" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="is_primary" Type="bit" Nullable="false" />
+          <Property Name="verify_dt" Type="date" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Name="group_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupPermission">
+          <Key>
+            <PropertyRef Name="group" />
+            <PropertyRef Name="permission" />
+          </Key>
+          <Property Name="group" Type="int" Nullable="false" />
+          <Property Name="permission" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalName">
+          <Key>
+            <PropertyRef Name="legal_name_id" />
+          </Key>
+          <Property Name="legal_name_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account" Type="int" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="middle_name" Type="varchar" MaxLength="35" />
+          <Property Name="last_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="name_suffix" Type="int" />
+        </EntityType>
+        <EntityType Name="NameSuffix">
+          <Key>
+            <PropertyRef Name="name_suffix_id" />
+          </Key>
+          <Property Name="name_suffix_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name_suffix" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="permission_id" />
+          </Key>
+          <Property Name="permission_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="phone_id" />
+          </Key>
+          <Property Name="phone_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account" Type="int" Nullable="false" />
+          <Property Name="number" Type="varchar" MaxLength="1" />
+          <Property Name="region" Type="int" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="is_primary" Type="bit" Nullable="false" />
+          <Property Name="verify_dt" Type="date" />
+        </EntityType>
+        <EntityType Name="PhoneBlacklist">
+          <Key>
+            <PropertyRef Name="phone_blacklist_id" />
+          </Key>
+          <Property Name="phone_blacklist_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="method" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="added_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneRegion">
+          <Key>
+            <PropertyRef Name="phone_region_id" />
+          </Key>
+          <Property Name="phone_region_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="region" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhoneType">
+          <Key>
+            <PropertyRef Name="phone_type_id" />
+          </Key>
+          <Property Name="phone_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VerificationCode">
+          <Key>
+            <PropertyRef Name="code_id" />
+          </Key>
+          <Property Name="code_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="int" />
+          <Property Name="phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="expiration_dt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_AccountGroup_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="AccountGroup" Type="Self.AccountGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="AccountGroup">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_AccountGroup_group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="AccountGroup" Type="Self.AccountGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="group_id" />
+            </Principal>
+            <Dependent Role="AccountGroup">
+              <PropertyRef Name="group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Email_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GroupPermission_group">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="GroupPermission" Type="Self.GroupPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="group_id" />
+            </Principal>
+            <Dependent Role="GroupPermission">
+              <PropertyRef Name="group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_GroupPermission_permission">
+          <End Role="Permission" Type="Self.Permission" Multiplicity="1" />
+          <End Role="GroupPermission" Type="Self.GroupPermission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permission">
+              <PropertyRef Name="permission_id" />
+            </Principal>
+            <Dependent Role="GroupPermission">
+              <PropertyRef Name="permission" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalName_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="LegalName" Type="Self.LegalName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="LegalName">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalName_name_suffix">
+          <End Role="NameSuffix" Type="Self.NameSuffix" Multiplicity="0..1" />
+          <End Role="LegalName" Type="Self.LegalName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameSuffix">
+              <PropertyRef Name="name_suffix_id" />
+            </Principal>
+            <Dependent Role="LegalName">
+              <PropertyRef Name="name_suffix" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_region">
+          <End Role="PhoneRegion" Type="Self.PhoneRegion" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneRegion">
+              <PropertyRef Name="phone_region_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="region" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_type">
+          <End Role="PhoneType" Type="Self.PhoneType" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneType">
+              <PropertyRef Name="phone_type_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HFSDBStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="User" store:Type="Tables" />
+          <EntitySet Name="AccountGroup" EntityType="Self.AccountGroup" Schema="User" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="User" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="User" store:Type="Tables" />
+          <EntitySet Name="GroupPermission" EntityType="Self.GroupPermission" Schema="User" store:Type="Tables" />
+          <EntitySet Name="LegalName" EntityType="Self.LegalName" Schema="User" store:Type="Tables" />
+          <EntitySet Name="NameSuffix" EntityType="Self.NameSuffix" Schema="User" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="User" store:Type="Tables" />
+          <EntitySet Name="Phone" EntityType="Self.Phone" Schema="User" store:Type="Tables" />
+          <EntitySet Name="PhoneBlacklist" EntityType="Self.PhoneBlacklist" Schema="User" store:Type="Tables" />
+          <EntitySet Name="PhoneRegion" EntityType="Self.PhoneRegion" Schema="User" store:Type="Tables" />
+          <EntitySet Name="PhoneType" EntityType="Self.PhoneType" Schema="User" store:Type="Tables" />
+          <EntitySet Name="VerificationCode" EntityType="Self.VerificationCode" Schema="User" store:Type="Tables" />
+          <AssociationSet Name="fk_AccountGroup_account" Association="Self.fk_AccountGroup_account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="AccountGroup" EntitySet="AccountGroup" />
+          </AssociationSet>
+          <AssociationSet Name="fk_AccountGroup_group" Association="Self.fk_AccountGroup_group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="AccountGroup" EntitySet="AccountGroup" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Email_account" Association="Self.fk_Email_account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GroupPermission_group" Association="Self.fk_GroupPermission_group">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="GroupPermission" EntitySet="GroupPermission" />
+          </AssociationSet>
+          <AssociationSet Name="fk_GroupPermission_permission" Association="Self.fk_GroupPermission_permission">
+            <End Role="Permission" EntitySet="Permission" />
+            <End Role="GroupPermission" EntitySet="GroupPermission" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalName_account" Association="Self.fk_LegalName_account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="LegalName" EntitySet="LegalName" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalName_name_suffix" Association="Self.fk_LegalName_name_suffix">
+            <End Role="NameSuffix" EntitySet="NameSuffix" />
+            <End Role="LegalName" EntitySet="LegalName" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_account" Association="Self.fk_Phone_account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_region" Association="Self.fk_Phone_region">
+            <End Role="PhoneRegion" EntitySet="PhoneRegion" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_type" Association="Self.fk_Phone_type">
+            <End Role="PhoneType" EntitySet="PhoneType" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HFSDB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pbkdf2_iterations" Type="Int32" Nullable="false" />
+          <Property Name="password_salt" Type="Binary" MaxLength="32" FixedLength="true" Nullable="false" />
+          <Property Name="password_hash" Type="Binary" MaxLength="32" FixedLength="true" Nullable="false" />
+          <Property Name="created_dt" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Emails" Relationship="Self.fk_Email_account" FromRole="Account" ToRole="Email" />
+          <NavigationProperty Name="LegalNames" Relationship="Self.fk_LegalName_account" FromRole="Account" ToRole="LegalName" />
+          <NavigationProperty Name="Phones" Relationship="Self.fk_Phone_account" FromRole="Account" ToRole="Phone" />
+          <NavigationProperty Name="Groups" Relationship="Self.AccountGroup" FromRole="Account" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="email_id" />
+          </Key>
+          <Property Name="email_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account" Type="Int32" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="is_primary" Type="Boolean" Nullable="false" />
+          <Property Name="verify_dt" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Account1" Relationship="Self.fk_Email_account" FromRole="Email" ToRole="Account" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="group_id" />
+          </Key>
+          <Property Name="group_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accounts" Relationship="Self.AccountGroup" FromRole="Group" ToRole="Account" />
+          <NavigationProperty Name="Permissions" Relationship="Self.GroupPermission" FromRole="Group" ToRole="Permission" />
+        </EntityType>
+        <EntityType Name="LegalName">
+          <Key>
+            <PropertyRef Name="legal_name_id" />
+          </Key>
+          <Property Name="legal_name_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account" Type="Int32" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="middle_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name_suffix" Type="Int32" />
+          <NavigationProperty Name="Account1" Relationship="Self.fk_LegalName_account" FromRole="LegalName" ToRole="Account" />
+          <NavigationProperty Name="NameSuffix" Relationship="Self.fk_LegalName_name_suffix" FromRole="LegalName" ToRole="NameSuffix" />
+        </EntityType>
+        <EntityType Name="NameSuffix">
+          <Key>
+            <PropertyRef Name="name_suffix_id" />
+          </Key>
+          <Property Name="name_suffix_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name_suffix" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LegalNames" Relationship="Self.fk_LegalName_name_suffix" FromRole="NameSuffix" ToRole="LegalName" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="permission_id" />
+          </Key>
+          <Property Name="permission_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="Self.GroupPermission" FromRole="Permission" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="phone_id" />
+          </Key>
+          <Property Name="phone_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="region" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="is_primary" Type="Boolean" Nullable="false" />
+          <Property Name="verify_dt" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Account1" Relationship="Self.fk_Phone_account" FromRole="Phone" ToRole="Account" />
+          <NavigationProperty Name="PhoneRegion" Relationship="Self.fk_Phone_region" FromRole="Phone" ToRole="PhoneRegion" />
+          <NavigationProperty Name="PhoneType" Relationship="Self.fk_Phone_type" FromRole="Phone" ToRole="PhoneType" />
+        </EntityType>
+        <EntityType Name="PhoneBlacklist">
+          <Key>
+            <PropertyRef Name="phone_blacklist_id" />
+          </Key>
+          <Property Name="phone_blacklist_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="method" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="added_dt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PhoneRegion">
+          <Key>
+            <PropertyRef Name="phone_region_id" />
+          </Key>
+          <Property Name="phone_region_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.fk_Phone_region" FromRole="PhoneRegion" ToRole="Phone" />
+        </EntityType>
+        <EntityType Name="PhoneType">
+          <Key>
+            <PropertyRef Name="phone_type_id" />
+          </Key>
+          <Property Name="phone_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Phones" Relationship="Self.fk_Phone_type" FromRole="PhoneType" ToRole="Phone" />
+        </EntityType>
+        <EntityType Name="VerificationCode">
+          <Key>
+            <PropertyRef Name="code_id" />
+          </Key>
+          <Property Name="code_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="Int32" />
+          <Property Name="phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="expiration_dt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="fk_Email_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalName_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="LegalName" Type="Self.LegalName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="LegalName">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="account_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_LegalName_name_suffix">
+          <End Role="NameSuffix" Type="Self.NameSuffix" Multiplicity="0..1" />
+          <End Role="LegalName" Type="Self.LegalName" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NameSuffix">
+              <PropertyRef Name="name_suffix_id" />
+            </Principal>
+            <Dependent Role="LegalName">
+              <PropertyRef Name="name_suffix" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_region">
+          <End Role="PhoneRegion" Type="Self.PhoneRegion" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneRegion">
+              <PropertyRef Name="phone_region_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="region" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Phone_type">
+          <End Role="PhoneType" Type="Self.PhoneType" Multiplicity="1" />
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhoneType">
+              <PropertyRef Name="phone_type_id" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AccountGroup">
+          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+        </Association>
+        <Association Name="GroupPermission">
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="HFSDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Emails" EntityType="Self.Email" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="LegalNames" EntityType="Self.LegalName" />
+          <EntitySet Name="NameSuffixes" EntityType="Self.NameSuffix" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Phones" EntityType="Self.Phone" />
+          <EntitySet Name="PhoneBlacklists" EntityType="Self.PhoneBlacklist" />
+          <EntitySet Name="PhoneRegions" EntityType="Self.PhoneRegion" />
+          <EntitySet Name="PhoneTypes" EntityType="Self.PhoneType" />
+          <EntitySet Name="VerificationCodes" EntityType="Self.VerificationCode" />
+          <AssociationSet Name="fk_Email_account" Association="Self.fk_Email_account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalName_account" Association="Self.fk_LegalName_account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="LegalName" EntitySet="LegalNames" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_account" Association="Self.fk_Phone_account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="fk_LegalName_name_suffix" Association="Self.fk_LegalName_name_suffix">
+            <End Role="NameSuffix" EntitySet="NameSuffixes" />
+            <End Role="LegalName" EntitySet="LegalNames" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_region" Association="Self.fk_Phone_region">
+            <End Role="PhoneRegion" EntitySet="PhoneRegions" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Phone_type" Association="Self.fk_Phone_type">
+            <End Role="PhoneType" EntitySet="PhoneTypes" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="AccountGroup" Association="Self.AccountGroup">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="GroupPermission" Association="Self.GroupPermission">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Permission" EntitySet="Permissions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HFSDBStoreContainer" CdmEntityContainer="HFSDBEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="HFSDB.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="pbkdf2_iterations" ColumnName="pbkdf2_iterations" />
+                <ScalarProperty Name="password_salt" ColumnName="password_salt" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="created_dt" ColumnName="created_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="HFSDB.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="email_id" ColumnName="email_id" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="is_primary" ColumnName="is_primary" />
+                <ScalarProperty Name="verify_dt" ColumnName="verify_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="HFSDB.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalNames">
+            <EntityTypeMapping TypeName="HFSDB.LegalName">
+              <MappingFragment StoreEntitySet="LegalName">
+                <ScalarProperty Name="legal_name_id" ColumnName="legal_name_id" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="name_suffix" ColumnName="name_suffix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NameSuffixes">
+            <EntityTypeMapping TypeName="HFSDB.NameSuffix">
+              <MappingFragment StoreEntitySet="NameSuffix">
+                <ScalarProperty Name="name_suffix_id" ColumnName="name_suffix_id" />
+                <ScalarProperty Name="name_suffix" ColumnName="name_suffix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="HFSDB.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="permission_id" ColumnName="permission_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phones">
+            <EntityTypeMapping TypeName="HFSDB.Phone">
+              <MappingFragment StoreEntitySet="Phone">
+                <ScalarProperty Name="phone_id" ColumnName="phone_id" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="is_primary" ColumnName="is_primary" />
+                <ScalarProperty Name="verify_dt" ColumnName="verify_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneBlacklists">
+            <EntityTypeMapping TypeName="HFSDB.PhoneBlacklist">
+              <MappingFragment StoreEntitySet="PhoneBlacklist">
+                <ScalarProperty Name="phone_blacklist_id" ColumnName="phone_blacklist_id" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="method" ColumnName="method" />
+                <ScalarProperty Name="added_dt" ColumnName="added_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneRegions">
+            <EntityTypeMapping TypeName="HFSDB.PhoneRegion">
+              <MappingFragment StoreEntitySet="PhoneRegion">
+                <ScalarProperty Name="phone_region_id" ColumnName="phone_region_id" />
+                <ScalarProperty Name="region" ColumnName="region" />
+                <ScalarProperty Name="code" ColumnName="code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhoneTypes">
+            <EntityTypeMapping TypeName="HFSDB.PhoneType">
+              <MappingFragment StoreEntitySet="PhoneType">
+                <ScalarProperty Name="phone_type_id" ColumnName="phone_type_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VerificationCodes">
+            <EntityTypeMapping TypeName="HFSDB.VerificationCode">
+              <MappingFragment StoreEntitySet="VerificationCode">
+                <ScalarProperty Name="code_id" ColumnName="code_id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="expiration_dt" ColumnName="expiration_dt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AccountGroup" TypeName="HFSDB.AccountGroup" StoreEntitySet="AccountGroup">
+            <EndProperty Name="Account">
+              <ScalarProperty Name="account_id" ColumnName="account" />
+            </EndProperty>
+            <EndProperty Name="Group">
+              <ScalarProperty Name="group_id" ColumnName="group" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="GroupPermission" TypeName="HFSDB.GroupPermission" StoreEntitySet="GroupPermission">
+            <EndProperty Name="Group">
+              <ScalarProperty Name="group_id" ColumnName="group" />
+            </EndProperty>
+            <EndProperty Name="Permission">
+              <ScalarProperty Name="permission_id" ColumnName="permission" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

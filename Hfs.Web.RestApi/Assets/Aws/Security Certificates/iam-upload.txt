@@ -1,0 +1,1 @@
+aws iam upload-server-certificate --server-certificate-name hayesfieldservices-com --certificate-body file://hayesfieldservices.cer --private-key file://hayesfieldservices-com.key --path /cloudfront/test-www/
